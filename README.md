@@ -5,6 +5,8 @@
 ## 2. 这是一个二级标题 (H2)
 
 用于区分不同的章节，GitHub 会自动为它生成锚点链接。
+<img width="562" height="58" alt="image" src="https://github.com/user-attachments/assets/301e35da-3d80-452e-8df0-732ad64c19c1" />
+
 
 ### 3. 任务清单 (Task List)
 
