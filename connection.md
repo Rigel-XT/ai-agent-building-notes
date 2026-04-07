@@ -121,3 +121,33 @@ The Symptom: You will encounter ResourceNotFoundException or AccessDenied even i
     boto3.client('bedrock-agent-runtime', region_name='us-east-2').
 3.  Ensure your API Gateway endpoint and the Lambda it triggers reside in the same geographic region to minimize latency and avoid cross-region transfer costs.
 
+# 🚀 Global Troubleshooting Manual: From Browser to AWS Backend
+
+### Step 1: Browser Console (Front-end Logic)
+* **Objective:** Confirm if the issue is a JavaScript crash or a failure to load static resources.
+* **Path:** `F12` > **Console** tab.
+* **Key Errors:** * `Uncaught ReferenceError` (Variable not defined).
+    * `404 Not Found` (Missing assets/scripts).
+
+### Step 2: Network Panel (Front-end & Back-end Interface)
+* **Objective:** Check if the request was sent successfully and inspect the initial status returned by the backend.
+* **Path:** `F12` > **Network** tab > Click on the specific **Request Name**.
+
+#### 1. Headers (Identity & Environment)
+* **Status Code:** `401/403` (Auth/Token issues), `502/504` (Gateway/Timeout).
+* **Request Headers:** Verify if the `Authorization` field is present and correct.
+* **Response Headers:** Locate **`x-amzn-RequestId`**. This is your unique key for locating logs within AWS.
+
+#### 2. Response Body (Direct Backend Feedback)
+* **Path:** **Network** > **Response** sub-tab.
+* **Key Errors:** Look for messages like `{"message": "Invalid API Key"}`. If detailed info is provided here, the fix usually doesn't require diving into AWS.
+
+### Step 3: AWS Backend Logs (Deep Logic Investigation)
+* **Objective:** When the Network panel shows a `500` error with no details, use logs to find specific code execution errors.
+* **Workflow (AWS Console):**
+    * **Navigation Path:** `Lambda` > `Functions` > `BedrockAgentConnector`
+    * **Selected Tab:** `Monitor`
+    * **Action:** Click **View CloudWatch logs**.
+    * **Filter Suggestion:** Set to **Local timezone** to easily match the log entry with the exact time the browser error occurred.
+* **Core Action:** Enter the latest **Log Stream**, and copy the **most recent (top-most)** logs for AI analysis.
+
